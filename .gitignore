@@ -1,0 +1,59 @@
+# --- Python Basics ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- Django Specific ---
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+/static/
+/media/
+/staticfiles/
+
+# --- Environment Variables (CRITICAL: Never commit these) ---
+.env
+.venv
+env.ini
+.secrets
+
+# --- IDEs and Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# --- Logs and Databases ---
+*.log
+*.sql
+*.sqlite
+
+# --- Testing and Coverage ---
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# --- Packaging and Distribution ---
+dist/
+build/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
