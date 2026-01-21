@@ -1,11 +1,15 @@
 from django.contrib import admin
-from django.urls import path, include
-from courses.views import CourseListView
+from django.urls import include, path
+from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', CourseListView.as_view(), name='home'),
-    path('accounts/', include('accounts.urls')),
-    path('courses/', include('courses.urls')),
-    path('enrollments/', include('enrollments.urls')),
+    path("admin/", admin.site.urls),
+    path(
+        "",
+        RedirectView.as_view(pattern_name="courses:course_list", permanent=False),
+        name="home",
+    ),
+    path("accounts/", include("accounts.urls")),
+    path("courses/", include("courses.urls")),
+    path("enrollments/", include("enrollments.urls")),
 ]
