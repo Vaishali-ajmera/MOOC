@@ -37,6 +37,8 @@ env.ini
 *.sql
 *.sqlite
 
+courses/management/
+
 # --- Testing and Coverage ---
 htmlcov/
 .tox/

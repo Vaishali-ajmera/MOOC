@@ -4,13 +4,9 @@ from decouple import Csv, config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config(
-    "SECRET_KEY", default="django-insecure-dev-key-change-in-production"
-)
-
+SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost,127.0.0.1", cast=Csv())
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -101,3 +97,11 @@ LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/accounts/login/"
 
 LOGOUT_REDIRECT_URL = "/"
+
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://0.0.0.0:8000",
+]

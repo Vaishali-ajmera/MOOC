@@ -1,42 +1,45 @@
 # MOOC Platform
 
-A Django-based Massive Open Online Course platform.
+A Django-based Massive Open Online Course platform with Docker support.
 
-## Setup Instructions
+## Quick Start with Docker
 
-### Prerequisites
-- Python 3.10+
-- PostgreSQL 14+
-
-### Database Setup
+### 1. Setup Environment
 
 ```bash
-sudo -u postgres psql
-CREATE DATABASE mooc_db;
-CREATE USER mooc_user WITH PASSWORD 'mooc_pass';
-ALTER ROLE mooc_user SET client_encoding TO 'utf8';
-ALTER ROLE mooc_user SET default_transaction_isolation TO 'read committed';
-ALTER ROLE mooc_user SET timezone TO 'UTC';
-GRANT ALL PRIVILEGES ON DATABASE mooc_db TO mooc_user;
-\q
-```
-
-### Installation
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
 cp .env.example .env
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
 ```
 
-### Access
+Update `.env` with your values.
 
-- Application: http://localhost:8000
-- Admin Panel: http://localhost:8000/admin
+### 2. Build and Run
+
+```bash
+docker-compose up --build
+```
+
+### 3. Create Superuser
+
+```bash
+docker-compose exec web python manage.py createsuperuser
+```
+
+### 4. Access
+
+- **Application**: http://localhost:8000
+- **Admin Panel**: http://localhost:8000/admin
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `SECRET_KEY` | Django secret key |
+| `DEBUG` | Debug mode |
+| `DB_NAME` | Database name |
+| `DB_USER` | Database user |
+| `DB_PASSWORD` | Database password |
+| `DB_HOST` | Database host |
+| `DB_PORT` | Database port |
 
 ## Project Structure
 
