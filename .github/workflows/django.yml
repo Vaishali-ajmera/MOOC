@@ -16,7 +16,7 @@ jobs:
         env:
           POSTGRES_DB: moocdb
           POSTGRES_USER: myuser
-          POSTGRES_PASSWORD: mypassword
+          POSTGRES_PASSWORD:  ${{ secrets.DB_PASSWORD }} 
         options: >-
           --health-cmd pg_isready
           --health-interval 10s

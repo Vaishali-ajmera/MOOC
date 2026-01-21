@@ -86,9 +86,12 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+import os
+
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+    BASE_DIR / 'static',
+] if os.path.exists(BASE_DIR / 'static') else []
+
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
