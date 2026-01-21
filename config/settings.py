@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -73,9 +74,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'moocdb',  # The name of your database
+        'USER': 'myuser',      # The username you created
+        'PASSWORD': config('DB_PASSWORD'),  # The password you set
+        'HOST': 'localhost',   # Leave as localhost if running locally
+        'PORT': '5432',        # Default PostgreSQL port
     }
 }
 
