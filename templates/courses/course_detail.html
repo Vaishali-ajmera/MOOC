@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.title }} - MOOC Platform{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'courses:course_list' %}">Courses</a></li>
+        <li class="breadcrumb-item active">{{ course.title }}</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-8">
+        <h1 class="display-5 fw-bold mb-3">{{ course.title }}</h1>
+        <p class="lead">{{ course.short_description }}</p>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>About this course</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ course.long_description|linebreaks }}</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-list-ol me-2"></i>Course Content</h5>
+                <span class="badge bg-primary">{{ course.lessons.count }} lessons</span>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for lesson in course.lessons.all %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="me-2">{{ forloop.counter }}.</span>
+                        {% if is_enrolled %}
+                        <a href="{% url 'courses:lesson_detail' course.slug lesson.pk %}" class="text-decoration-none">
+                            {{ lesson.title }}
+                        </a>
+                        {% else %}
+                        <span class="text-muted">{{ lesson.title }}</span>
+                        {% endif %}
+                    </div>
+                    {% if lesson.pk in visited_lesson_ids %}
+                    <span class="badge bg-success">
+                        <i class="bi bi-check-lg"></i> Completed
+                    </span>
+                    {% endif %}
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted">No lessons available yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow sticky-top" style="top: 20px;">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-mortarboard display-4 text-primary"></i>
+                </div>
+                <h5 class="card-title">{{ course.title }}</h5>
+                <p class="text-muted small">
+                    <i class="bi bi-calendar me-1"></i>
+                    Created {{ course.created_at|date:"M d, Y" }}
+                </p>
+                
+                {% if user.is_authenticated %}
+                    {% if is_enrolled %}
+                    <div class="alert alert-success mb-3">
+                        <i class="bi bi-check-circle me-1"></i> You are enrolled
+                    </div>
+                    {% if course.lessons.exists %}
+                    <a href="{% url 'courses:lesson_detail' course.slug course.lessons.first.pk %}" class="btn btn-primary w-100">
+                        <i class="bi bi-play-fill me-1"></i>Start Learning
+                    </a>
+                    {% endif %}
+                    {% else %}
+                    <form method="post" action="{% url 'enrollments:enroll' course.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-lg w-100">
+                            <i class="bi bi-plus-circle me-1"></i>Enroll Now
+                        </button>
+                    </form>
+                    {% endif %}
+                {% else %}
+                <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>Login to Enroll
+                </a>
+                <p class="mt-2 small text-muted">
+                    Don't have an account? <a href="{% url 'accounts:signup' %}">Sign up</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
